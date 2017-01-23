@@ -1,6 +1,8 @@
 define(["css!./QSenseAutoRefresh.css", "qlik"],
   function(template, qlik){
 	
+	var timeout;
+	
 	var timer = {
 	  ref: "timer",
 		type: "integer",
@@ -79,10 +81,13 @@ define(["css!./QSenseAutoRefresh.css", "qlik"],
         var div = document.getElementById(id);
 				var app = qlik.currApp(this);
 				
-				console.log(qlik.navigation.getMode());
-
+				
+				
 				if(layout.onOff && qlik.navigation.getMode()!='edit'){
-				  setTimeout(function() {location.reload();}, layout.timer*60000);
+				  timeout = setTimeout(function() {location.reload();}, layout.timer*60000);
+					console.log(Date());
+				}else{
+				  clearTimeout(timeout);
 				}
 			}
 	}
