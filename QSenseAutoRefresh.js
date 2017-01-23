@@ -1,5 +1,28 @@
-define(["css!./QSenseAutoRefresh.css"],
-  function(template){
+define(["css!./QSenseAutoRefresh.css", "qlik"],
+  function(template, qlik){
+	
+	var timer = {
+	  ref: "timer",
+		type: "integer",
+		label: "Minutes",
+		expression: "always",
+		defaultValue: 30
+  };
+	
+  var timerOnOff = {
+	  type: "boolean",
+		component: "switch",
+		label: "Activer le refresh",
+		ref: "onOff",
+		options: [{
+			value: true,
+			label: "On"
+		}, {
+			value: false,
+			label: "Off"
+		}],
+		defaultValue: false
+	};
 	
 	return{
 	  initialProperties: {
@@ -16,14 +39,20 @@ define(["css!./QSenseAutoRefresh.css"],
         type: "items",
         component: "accordion",
         items: {
-          measures: {
-            uses: "measures",
-            min: 1,
-            max: 2
-          },
-          Setting: {
-            uses: "settings"
-          }
+				  Setting: {
+            uses: "settings",
+						items: {
+							timer: {
+						    ref: "timer",
+						    type: "items",
+						    label: "Options",
+								items: {
+						      timer: timer,
+									onOff: timerOnOff
+								}
+							}
+						}
+					}
         }
       },
       support: {
@@ -45,6 +74,16 @@ define(["css!./QSenseAutoRefresh.css"],
         } else {
           $element.append($('<div />').attr("id", id).attr("class", "viz").width(width).height(height));
         }
+				
+				 //recup de la zone d'affichage
+        var div = document.getElementById(id);
+				var app = qlik.currApp(this);
+				
+				console.log(qlik.navigation.getMode());
+
+				if(layout.onOff && qlik.navigation.getMode()!='edit'){
+				  setTimeout(function() {location.reload();}, layout.timer*60000);
+				}
 			}
 	}
 });

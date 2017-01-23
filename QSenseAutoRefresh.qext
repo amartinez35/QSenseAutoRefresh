@@ -1,0 +1,13 @@
+{
+	"name" : "QSense autoRefresh",
+	"description" : "QSense auto refresh",
+	"icon" : "gauge-chart",
+	"type" : "visualization",
+	"version": "0.0.2",
+	"author": "Excelcio",
+	"homepage" : "http://excelcio.com/",
+	"keywords" : "qlik-sense, visualization",
+	"license" : "",
+	"repository" : "https://github.com/amartinez35/QSenseGauge",
+    "dependencies" : { "qlik-sense" : ">=2.2.x" }
+}
